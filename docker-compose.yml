@@ -1,0 +1,27 @@
+server:
+  image: xfocus/apache-php:v0.1
+  container_name: app_server
+  volumes:
+    - .:/var/www
+  links:
+    - mariadb
+  ports:
+    - "80:80"
+    - "443:443"
+  environment:
+    HOST_IP: 192.168.99.100
+    APACHE_DOC_ROOT: /public
+mariadb-data:
+  image: tianon/true
+  container_name: mariadb-data
+  volumes:
+    - /var/lib/mysql
+mariadb:
+  image: mariadb
+  container_name: mariadb
+  volumes_from:
+    - "mariadb-data"
+  environment:
+    - MYSQL_ROOT_PASSWORD=001122
+    - MYSQL_DATABASE=loginCD
+    - MYSQL_PASSWORD=001122
